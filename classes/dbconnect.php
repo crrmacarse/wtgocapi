@@ -18,8 +18,9 @@
 
         public function connect(){
             try {
-                $conn = odbc_connect('Driver=FreeTDS;Server=' . $this->dbserver . ';Port='. $this->dbport .';Database='. $this->dbname , $this->dbusername , $this->dbpassword);
-                // $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $conn = new PDO('odbc:host=' . $this->dbserver . ';dbname='. $this->database , $this->dbusername , $this->dbpassword);
+                $conn = new PDO('odbc:Driver=FreeTDS;Server=' . $this->dbserver . ';Port='. $this->dbport .';Database='. $this->dbname , $this->dbusername , $this->dbpassword);
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                 return $conn;
             } catch (Exception $e){
