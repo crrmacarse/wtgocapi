@@ -1,5 +1,5 @@
 <?php
-    class clsHousehold {
+    class clsSalesReport {
 
         private $tableName = 'TBLHouseHold';
         private $connection;

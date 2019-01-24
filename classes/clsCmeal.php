@@ -1,5 +1,5 @@
 <?php
-    class clsUserAccounts {
+    class clsCmeal {
 
         private $tableName = 'TBLHouseHold';
         private $connection;
