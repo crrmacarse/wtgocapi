@@ -5,12 +5,11 @@
         public function __construct() {
             // triggers parent class(extended class)
             parent::__construct();
-
         }
 
         public function generateToken() {
             $username = $this->validateParameter('username', $this->param['username'], STRING);
-            $password = $this->validateParameter('password', $this->param['password'], STRING);
+            $password = encryptPassword($this->validateParameter('password', $this->param['password'], STRING));
             try {
                 $sql = "SELECT 
                                         
