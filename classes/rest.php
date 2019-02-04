@@ -9,12 +9,36 @@
         protected $param;
         protected $connection;
         protected $userId;
+        protected $ip;
 
         public function __construct() {
+            if($_SERVER['REQUEST_METHOD'] == 'GET'){
+                $this->returnResponse(HTTP_NO_CONTENT, 
+                array(
+                    'message' => 'Welcome to the Waffle Time Group of Comapnies REST API!',
+                    'links' => array(
+                        'Waffle Time' => 'https://waffletime.com',
+                        'Coffeebreak' => 'https://coffeebreak.ph',
+                        'Mango Magic' => 'https://mangomagic.ph',
+                        'Great Foods Concept INC.' => 'https://www.greatfoodsconcepts.ph/',
+                    ),
+                    'maintained by' => array(
+                        '@crrmacarse' => 'https://twitter.com/pablongbuhaymo',
+                    ),
+                    'note' => 'This API only accept POST method for inbound requests'
+                ));
+            };
+
             // Check if submitted request method is a post
             if($_SERVER['REQUEST_METHOD'] !== 'POST'){
                 $this->throwError(HTTP_METHOD_NOT_ALLOWED, 'Request Method is not valid.');
             };
+
+            // Gets the Ip of client
+            $this->ip = filter_input(INPUT_SERVER, 'HTTP_CLIENT_IP', FILTER_VALIDATE_IP)
+                ?: filter_input(INPUT_SERVER, 'HTTP_X_FORWARDED_FOR', FILTER_VALIDATE_IP)
+                ?: $_SERVER['REMOTE_ADDR'];
+
             // reads submitted data
             $handler = fopen('php://input', 'r');
             $this->request = stream_get_contents($handler);
@@ -70,7 +94,7 @@
                 $rMethod = new reflectionMethod('API', $this->serviceName);
                 // checks if the method $this->serviceName exists in API class
                 if(!method_exists($api, $this->serviceName)) {
-                    $this->throwError(HTTP_NOT_IMPLEMENTED, 'API does not exist.');
+                    $this->throwError(HTTP_NOT_IMPLEMENTED, 'API method does not exist.');
                 }
                 // invoke allows rMethod to accetpt the object of the API class
                 $rMethod->invoke($api);
@@ -209,6 +233,49 @@
                 $this->userId = $payload->userId;
             } catch (Exception $e) {
                 $this->throwError(HTTP_UNPROCESSABLE_ENTITY, $e->getMessage());
+            }
+        }
+
+        public function checkLoginAttempt($userId) {
+            $mysqlconn = new dbConnect;
+            $conn = $mysqlconn->connectMySQL("failed_logins"); 
+            try {
+
+                $stmt = $conn->prepare("SELECT COUNT(*) AS total
+                
+                FROM user_failed_logins
+                
+                WHERE USERID = :uid 
+                AND INET_NTOA(IPADDRESS) = :ip 
+                AND DATEATTEMPT > (NOW() - INTERVAL 24 HOUR)");
+                $stmt->bindParam('uid', $userId);
+                $stmt->bindParam('ip', $this->ip);
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+               if($result["total"] > 3) {
+                   $this->throwError(HTTP_BAD_REQUEST, "You've exceeded the maximum log-in attempt for today. Sorry for the inconvenience (This module was implemented for security reasons).");
+               }
+            } catch (Exception $e){
+                $this->throwError(HTTP_INTERNAL_SERVER_ERROR, $e->getMessage());
+            }
+
+         }
+
+        public function writeLoginAttempt($userId) {
+            $mysqlconn = new dbConnect;
+            $conn = $mysqlconn->connectMySQL("failed_logins"); 
+
+            try {
+                $stmt = $conn->prepare("INSERT INTO user_failed_logins(USERID, IPADDRESS, DATEATTEMPT)  
+                
+                VALUES(:uid, INET_ATON(:ip), now())");               
+                $stmt->bindParam('uid', $userId);
+                $stmt->bindParam('ip', $this->ip);
+                $stmt->execute();
+                
+            } catch (Exception $e){
+               $this->throwError(HTTP_INTERNAL_SERVER_ERROR, $e->getMessage());
             }
         }
 

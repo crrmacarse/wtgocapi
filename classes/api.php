@@ -1,5 +1,7 @@
 <?php
 
+    require_once(dirname(__DIR__).'/include/functions.php');
+
     class Api extends Rest {
 
         public function __construct() {
@@ -8,8 +10,11 @@
         }
 
         public function generateToken() {
-            $username = $this->validateParameter('username', $this->param['username'], STRING);
-            $password = encryptPassword($this->validateParameter('password', $this->param['password'], STRING));
+            $username = odbc_escape_string_access($this->validateParameter('username', $this->param['username'], STRING));
+            $password = odbc_escape_string_access(encryptPassword($this->validateParameter('password', $this->param['password'], STRING)));
+            
+            $this->checkLoginAttempt($username);
+                    
             try {
                 $sql = "SELECT 
                                         
@@ -23,11 +28,24 @@
                 FROM AccountUser
                 
                 WHERE unAccountUser = '$username' AND AUPassword = '$password'";
-                $result = odbc_exec($this->connection, $sql);
+                $result = odbc_exec($this->connection, $sql);   
                 $user = odbc_fetch_array($result);
+
+                /*
+                    VLUNERABLE TO SQL INJUECTION:
+                    {
+                        "name":"generateToken",
+                        "param":{
+                            "username":"1' or 1=1 -- -",
+                            "password":"bl"
+                        }
+                    }
+                */
 
                 // Check if database has a response from user log-in
                 if(!$user) {
+                    $this->writeLoginAttempt($username);
+                    
                     $this->returnResponse(HTTP_BAD_REQUEST, 'Email or Password is incorrect.');
                 }
 

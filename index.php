@@ -5,6 +5,7 @@
     error_reporting(E_ALL);
 
     require_once('include/functions.php');
+    
     $api = new Api;
     $api->processApi();
 
