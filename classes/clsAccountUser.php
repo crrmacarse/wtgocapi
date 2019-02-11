@@ -1,5 +1,12 @@
 <?php
 
+    /*
+
+        Diday / 10.1.1.11 - DMSX 
+
+    */
+
+
     class clsAccountUser {
         private $tableName = 'DMSX';
         private $connection;
@@ -41,7 +48,6 @@
         function getAUGroup(){ return $this->AUGroup; }
         function setAUAccessMIS($AUAccessMIS){ $this->AUAccessMIS = $AUAccessMIS; }
         function getAUAccessMIS(){ return $this->$AUAccessMIS; }
-        
         function setAUAccessReports($AUAccessReports){ $this->AUAccessReports = $AUAccessReports; }
         function getAUAccessReports(){ return $this->$AUAccessReports; }
         function setAUAccessQW($AUAccessQW){ $this->AUAccessQW = $AUAccessQW; }
@@ -62,9 +68,15 @@
         function getAUVersion(){ return $this->$AUVersion; }
         
 
-        function __construct() {
+        private function __construct() {
             $db = new dbConnect();
             $this->dbConn = $db->connect();
+        }
+
+        public function getAllAccountUser() {
+            $result = odbc_exec($this->connection, "SELECT * FROM " . $this->tableName);   
+            $user = odbc_fetch_array($result);
+            return $user;
         }
 
         // function __construct($database) {

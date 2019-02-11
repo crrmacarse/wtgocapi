@@ -75,6 +75,16 @@
 
         }
 
+        public function getAllAccountUser() {
+            $AccountUser = new clsAccountUser;
+            $data = $AccountUser->getAllAccountUser();
+            if(!data){
+                $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found'));
+            }
+
+            $this->returnResponse(HTTP_OK, $data);
+        }
+
         public function getAllHousehold() { 
             $household = new clsHousehold;
             $data = $household->getAllHousehold();
