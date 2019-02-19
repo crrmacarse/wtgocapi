@@ -85,7 +85,7 @@
         }
 
         public function getAccountUserById() {
-            $sql = "SELECT * FROM $this->tableName WHERE idAccountUser = '$this->idAccountUser'";        
+            $sql = "SELECT * FROM $this->tableName WHERE idAccountUser = $this->idAccountUser";        
             $result = odbc_exec($this->connection, $sql);   
             $user = array();
 
@@ -122,7 +122,7 @@
                     
                     $this->tableName
                     
-                    WHERE idAccountUser = '$this->idAccountUser'";
+                    WHERE idAccountUser = $this->idAccountUser";
 
             die($sql);
 
