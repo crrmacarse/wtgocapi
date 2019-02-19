@@ -124,8 +124,6 @@
                     
                     WHERE idAccountUser = " . $this->idAccountUser;
 
-            die($sql);
-
             $result = odbc_exec($this->connection, $sql);   
             $accessRights = array();
 
