@@ -124,10 +124,12 @@
                     
                     WHERE idAccountUser = '$this->idAccountUser'";
 
+            die($sql);
+
             $result = odbc_exec($this->connection, $sql);   
             $accessRights = array();
 
-            while($res = odbc_fetch_array($accessRights)) {
+            while($res = odbc_fetch_array($result)) {
                 array_push($accessRights, $res);
             }
 
