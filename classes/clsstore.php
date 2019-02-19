@@ -7,7 +7,7 @@
     */
 
 
-    class clsAccountUser {
+    class clsStore {
         private $tableName = 'Store';
         private $connection;
 
