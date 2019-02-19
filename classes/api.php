@@ -110,6 +110,19 @@
             $this->returnResponse(HTTP_OK, $data);
         }
 
+        public function getAccessRightsByUser() {
+            $idAccountUser = $this->validateParameter('idAccountUser', $this->param['idAccountUser'], INTEGER);
+            
+            $AccountUser = new clsAccountUser;
+            $AccountUser->setunAccountUser($unAccountUser);
+            $data = $AccountUser->getAccessRightsByUser();
+            if(!$data) {
+                $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
+            }
+            
+            $this->returnResponse(HTTP_OK, $data);
+        }
+
     }
 
 ?>

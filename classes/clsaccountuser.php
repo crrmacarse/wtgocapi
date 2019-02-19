@@ -85,7 +85,7 @@
         }
 
         public function getAccountUserById() {
-            $sql = "SELECT * FROM AccountUser WHERE idAccountUser = '$this->idAccountUser'";        
+            $sql = "SELECT * FROM '$this->tableName' WHERE idAccountUser = '$this->idAccountUser'";        
             $result = odbc_exec($this->connection, $sql);   
             $user = array();
 
@@ -97,7 +97,7 @@
         }
 
         public function getAccountUserByUser() {
-            $sql = "SELECT * FROM AccountUser WHERE unAccountUser = '$this->unAccountUser'"; 
+            $sql = "SELECT * FROM '$this->tableName' WHERE unAccountUser = '$this->unAccountUser'"; 
             $result = odbc_exec($this->connection, $sql);   
             $user = array();
 
@@ -106,6 +106,32 @@
             }
             
             return $user;
+        }
+
+        public function getAccessRightsByUser(){
+            $sql = "SELECT
+                            AUGroup,
+                            AUAccessMIS,
+                            AUAccessReports,
+                            AUAccessQW,
+                            AUAccessCP,
+                            AUAccessOrderingGFC,
+                            AUAccessCMeal,
+                            AUAccessDTR,
+                            AUAccessCreditCard
+                    
+                    '$this->tableName' 
+                    
+                    WHERE idAccountUser = '$this->idAccountUser'";
+
+            $result = odbc_exec($this->connection, $sql);   
+            $accessRights = array();
+
+            while($res = odbc_fetch_array($result)) {
+                array_push($accessRights, $res);
+            }
+
+            return $accessRights;
         }
 
 
