@@ -81,7 +81,7 @@
             if(!data){
                 $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found'));
             }
-
+            die($data);
             $this->returnResponse(HTTP_OK, $data);
         }
 
