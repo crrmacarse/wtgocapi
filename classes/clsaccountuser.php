@@ -85,7 +85,7 @@
         }
 
         public function getAccountUserById() {
-            $sql = "SELECT * FROM AccountUser WHERE idAccountUser = '$this->idAccountUser' FROM " . $this->tableName;        
+            $sql = "SELECT * FROM AccountUser WHERE idAccountUser = '$this->idAccountUser'";        
             $result = odbc_exec($this->connection, $sql);   
             $user = array();
 
@@ -97,8 +97,7 @@
         }
 
         public function getAccountUserByUser() {
-            $sql = "SELECT * FROM AccountUser WHERE unAccountUser = '$this->unAccountUser' FROM " . $this->tableName;  
-            die($sql);      
+            $sql = "SELECT * FROM AccountUser WHERE unAccountUser = '$this->unAccountUser'"; 
             $result = odbc_exec($this->connection, $sql);   
             $user = array();
 
