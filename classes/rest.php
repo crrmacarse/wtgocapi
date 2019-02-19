@@ -215,7 +215,7 @@
                 $token = $this->getBearerToken();
                 $payload = JWT::decode($token, JWT_SECRET_KEY, array('HS256'));
             
-                die(var_dump($payload["userId"]));
+                die(($payload[0]["userId"]));
                 
                 // PDO query to check for user
                 $sql = "SELECT idAccountUser FROM AccountUser WHERE idAccountUser = '$payload{userId}'";
