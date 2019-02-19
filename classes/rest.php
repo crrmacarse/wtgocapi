@@ -216,7 +216,7 @@
                 $payload = json_decode(JWT::decode($token, JWT_SECRET_KEY, array('HS256')));
                 
                 // PDO query to check for user
-                $sql = "SELECT idAccountUser FROM AccountUser WHERE idAccountUser = '$payload->userId'";
+                $sql = "SELECT * FROM AccountUser WHERE idAccountUser = '$payload->userId'";
                 $result = odbc_exec($this->connection, $sql);   
                 $user = odbc_fetch_array($result);
 
