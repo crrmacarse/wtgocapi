@@ -96,9 +96,18 @@
             return $user;
         }
 
-        // function __construct($database) {
-        //     $db = new dbConnect()
-        // }
+        public function getAccountUserByUser() {
+            $sql = "SELECT * FROM AccountUser WHERE unAccountUser = '$this->unAccountUser' FROM " . $this->tableName;        
+            $result = odbc_exec($this->connection, $sql);   
+            $user = array();
+
+            while($res = odbc_fetch_array($result)) {
+                array_push($user, $res);
+            }
+        
+            return $user;
+        }
+
 
     }
 

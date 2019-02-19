@@ -97,31 +97,19 @@
             $this->returnResponse(HTTP_OK, $data);
         }
 
-
-
-
-        public function getAllHousehold() { 
-            $household = new clsHousehold;
-            $data = $household->getAllHousehold();
-            if(!$data) { 
-                $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
-            }
-
-            $this->returnResponse(HTTP_OK, $data);
-        }
-
-        public function getHouseholdById() {
-            $idHousehold = $this->validateParameter('idHousehold', $this->param['idHousehold'], INTEGER);
+        public function getAccountUserByUser() {
+            $idAccountUser = $this->validateParameter('unAccountUser', $this->param['unAccountUser'], INTEGER);
             
-            $household = new clsHousehold;
-            $household->setIdHousehold($idHousehold);
-            $data = $household->getHouseholdById();
+            $AccountUser = new clsAccountUser;
+            $AccountUser->setunAccountUser($unAccountUser);
+            $data = $AccountUser->getAccountUserByUser();
             if(!$data) {
                 $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
             }
             
             $this->returnResponse(HTTP_OK, $data);
         }
+
     }
 
 ?>
