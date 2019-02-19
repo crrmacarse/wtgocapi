@@ -57,10 +57,10 @@
                 // creates a standard jwt payload
                 $payload = 
                     array(
-                     'iat' => time(),
-                     'iss' => 'localhost',
-                     'exp' => time() + (5*60),
-                     'userId' => $user['idAccountUser']
+                     "iat" => time(),
+                     "iss" => "localhost",
+                     "exp" => time() + (5*60),
+                     "userId" => $user["idAccountUser"]
                   )
                 ;
 
