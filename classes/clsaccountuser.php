@@ -110,7 +110,6 @@
 
         public function getAccessRightsByUser(){
             $sql = "SELECT
-                            AUGroup,
                             AUAccessMIS,
                             AUAccessReports,
                             AUAccessQW,
