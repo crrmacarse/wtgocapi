@@ -85,7 +85,7 @@
         }
 
         public function getAccountUserById() {
-            $sql = "SELECT * FROM '$this->tableName' WHERE idAccountUser = '$this->idAccountUser'";        
+            $sql = "SELECT * FROM $this->tableName WHERE idAccountUser = '$this->idAccountUser'";        
             $result = odbc_exec($this->connection, $sql);   
             $user = array();
 
@@ -120,7 +120,7 @@
                             AUAccessDTR,
                             AUAccessCreditCard
                     
-                    '$this->tableName' 
+                    $this->tableName
                     
                     WHERE idAccountUser = '$this->idAccountUser'";
 
