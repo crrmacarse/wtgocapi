@@ -68,7 +68,7 @@
         function getAUVersion(){ return $this->$AUVersion; }
         
 
-        private function __construct() {
+        public function __construct() {
             $db = new dbConnect();
             $this->dbConn = $db->connect();
         }
