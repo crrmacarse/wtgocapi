@@ -215,10 +215,10 @@
                 $token = $this->getBearerToken();
                 $payload = JWT::decode($token, JWT_SECRET_KEY, array('HS256'));
             
-                die(print_r($payload{"userId"}));
+                die($payload{userId});
                 
                 // PDO query to check for user
-                $sql = "SELECT idAccountUser FROM AccountUser WHERE idAccountUser = '$payload{4}'";
+                $sql = "SELECT idAccountUser FROM AccountUser WHERE idAccountUser = '$payload{userId}'";
                 $result = odbc_exec($this->connection, $sql);   
                 $user = odbc_fetch_array($result);
 
