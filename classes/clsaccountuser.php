@@ -75,7 +75,11 @@
 
         public function getAllAccountUser() {
             $result = odbc_exec($this->connection, "SELECT * FROM " . $this->tableName);   
-            $user = odbc_result($result);
+            $user = [];
+            
+            foreach(odbc_fetch_array($result) as $res) {
+                array_push($user, $res);
+            }
             return $user;
         }
 
