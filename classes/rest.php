@@ -216,7 +216,7 @@
                 $payload = JWT::decode($token, JWT_SECRET_KEY, array('HS256'));
                 
                 $jsonpayload = json_decode($payload);
-                die($jsonpayload[0]->userId);
+                die($jsonpayload->userId);
 
                 // PDO query to check for user
                 $sql = "SELECT idAccountUser FROM AccountUser WHERE idAccountUser = '$payload{userId}'";
