@@ -80,6 +80,19 @@
             while($res = odbc_fetch_array($result)) {
                 array_push($user, $res);
             }
+        
+            return $user;
+        }
+
+        public function getAccountUserById() {
+            $sql = "SELECT * FROM AccountUser WHERE idAccountUser = '$this->idAccountUser' FROM " . $this->tableName;        
+            $result = odbc_exec($this->connection, $sql);   
+            $user = array();
+
+            while($res = odbc_fetch_array($result)) {
+                array_push($user, $res);
+            }
+        
             return $user;
         }
 

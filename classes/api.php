@@ -84,6 +84,22 @@
             $this->returnResponse(HTTP_OK, $data);
         }
 
+        public function getAccountUserById() {
+            $idAccountUser = $this->validateParameter('idAccountUser', $this->param['idAccountUser'], INTEGER);
+            
+            $AccountUser = new clsAccountUser;
+            $AccountUser->setidAccountUser($idAccountUser);
+            $data = $AccountUser->getAccountUserById();
+            if(!$data) {
+                $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
+            }
+            
+            $this->returnResponse(HTTP_OK, $data);
+        }
+
+
+
+
         public function getAllHousehold() { 
             $household = new clsHousehold;
             $data = $household->getAllHousehold();
