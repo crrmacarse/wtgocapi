@@ -70,7 +70,7 @@
 
         public function __construct() {
             $db = new dbConnect();
-            $this->dbConn = $db->connect();
+            $this->connection = $db->connect();
         } 
 
         public function getAllAccountUser() {
