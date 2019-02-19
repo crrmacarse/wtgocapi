@@ -172,7 +172,7 @@
 
         public function getAuthorizationHeader() {
             $headers = null;
-            if(isset($_SERVEr['Authorization'])) {
+            if(isset($_SERVER['Authorization'])) {
                 $headers = trim($_SERVER["Authorization"]);
             }
             // for Nginx or fast CGI
@@ -213,6 +213,7 @@
             try {
                 // gets token and decode with JWT::decode translates to jwt.php then decode function
                 $token = $this->getBearerToken();
+                die($token);
                 $payload = JWT::decode($token, JWT_SECRET_KEY, array('HS256'));
 
                 // PDO query to check for user
