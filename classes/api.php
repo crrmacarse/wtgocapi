@@ -140,6 +140,34 @@
             $this->returnResponse(HTTP_OK, $data);
         }
 
+            /* 
+                10.1.1.11 - DMSX's Store Table API
+           
+            */
+
+        public function getAllStore() {
+            $Store = new clsStore;
+            $data = $Store->getAllStore();
+            if(!$data) {
+                $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
+            }
+            
+            $this->returnResponse(HTTP_OK, $data);
+        }
+
+        public function getStoreById() {
+            $idStore = $this->validateParameter('idStore', $this->param['idStore'], INTEGER);
+            
+            $Store = new clsStore;
+            $Store->setidStore($idStore);
+            $data = $Store->getStoreById();
+            if(!$data) {
+                $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
+            }
+            
+            $this->returnResponse(HTTP_OK, $data);
+        }
+
     }
 
 ?>
