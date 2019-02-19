@@ -8,7 +8,7 @@
 
 
     class clsAccountUser {
-        private $tableName = 'DMSX';
+        private $tableName = 'AccountUser';
         private $connection;
 
         private $idAccountUser;
