@@ -122,7 +122,7 @@
                     
                     $this->tableName
                     
-                    WHERE idAccountUser = " . $this->idAccountUser;
+                    WHERE idAccountUser = '$this->idAccountUser'";
             
             $result = odbc_exec($this->connection, $sql);   
             $accessRights = array();
