@@ -122,7 +122,7 @@
                     
                     $this->tableName
                     
-                    WHERE idAccountUser = $this->idAccountUser";
+                    WHERE idAccountUser = " . $this->idAccountUser;
 
             die($sql);
 
