@@ -122,16 +122,16 @@
                     
                     $this->tableName
                     
-                    WHERE idAccountUser = " . $this->tableName;
+                    WHERE idAccountUser = " . $this->idAccountUser;
             
             $result = odbc_exec($this->connection, $sql);   
-            $user = array();
+            $accessRights = array();
 
             while($res = odbc_fetch_array($result)) {
-                array_push($user, $res);
+                array_push($accessRights, $res);
             }
-        
-            return $user;
+
+            return $accessRights;
         }
 
 
