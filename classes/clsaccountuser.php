@@ -108,6 +108,18 @@
             return $user;
         }
 
+        public function getAccountUserByGroup() {
+            $sql = "SELECT * FROM $this->tableName WHERE AUGroup = " . $this->AUGroup;
+            $result = odbc_exec($this->connection, $sql);   
+            $userByGroup = array();
+
+            while($res = odbc_fetch_array($result)) {
+                array_push($userByGroup, $res);
+            }
+            
+            return $userByGroup;
+        }
+
         public function getAccessRightsByUser(){
             $sql = "SELECT
                             AUAccessMIS,

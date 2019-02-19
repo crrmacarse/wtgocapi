@@ -75,6 +75,10 @@
 
         }
 
+        /* 
+                10.1.1.11 - DMSX's AccountUser Table API
+        */
+
         public function getAllAccountUser() {
             $AccountUser = new clsAccountUser;
             $data = $AccountUser->getAllAccountUser();
@@ -103,6 +107,19 @@
             $AccountUser = new clsAccountUser;
             $AccountUser->setunAccountUser($unAccountUser);
             $data = $AccountUser->getAccountUserByUser();
+            if(!$data) {
+                $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
+            }
+            
+            $this->returnResponse(HTTP_OK, $data);
+        }
+
+        public function getAccountUserByGroup() {
+            $AUGroup = $this->validateParameter('AUGroup', $this->param['AUGroup'], INTEGER);
+            
+            $AccountUser = new clsAccountUser;
+            $AccountUser->setAUGroup($AUGroup);
+            $data = $AccountUser->getAccountUserByGroup();
             if(!$data) {
                 $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
             }
