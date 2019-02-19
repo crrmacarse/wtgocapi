@@ -213,11 +213,11 @@
             try {
                 // gets token and decode with JWT::decode translates to jwt.php then decode function
                 $token = $this->getBearerToken();
-                die($token);
                 $payload = JWT::decode($token, JWT_SECRET_KEY, array('HS256'));
+                die($payload);
 
                 // PDO query to check for user
-                $stmt = $this->connection->prepare('SELECT * FROM TBLUser WHERE idAccount = :idUser');
+                $stmt = $this->connection->prepare('SELECT * FROM AccountUser WHERE unAccountUser = :username');
                 $stmt->bindParam(':idUser', $payload->userId);
                 $stmt->execute();
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
