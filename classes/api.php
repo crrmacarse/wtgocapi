@@ -168,6 +168,36 @@
             $this->returnResponse(HTTP_OK, $data);
         }
 
+        public function getStoreByBUCode() {
+            $BUCode = $this->validateParameter('BUCode', $this->param['BUCode'], STRING);
+            
+            $Store = new clsStore;
+            $Store->setBUCode($BUCode);
+            $data = $Store->getStoreByBUCode();
+            if(!$data) {
+                $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
+            }
+            
+            $this->returnResponse(HTTP_OK, $data);
+        }
+
+        public function getStoreByBUSAPCardCode() {
+            $BUSAPCardCode = $this->validateParameter('BUSAPCardCode', $this->param['BUSAPCardCode'], STRING);
+            
+            $Store = new clsStore;
+            $Store->setBUCode($BUSAPCardCode);
+            $data = $Store->getStoreByBUSAPCardCode();
+            if(!$data) {
+                $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
+            }
+            
+            $this->returnResponse(HTTP_OK, $data);
+        }
+        
+
+
+
+
     }
 
 ?>
