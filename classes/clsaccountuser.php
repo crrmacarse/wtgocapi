@@ -71,7 +71,7 @@
         public function __construct() {
             $db = new dbConnect();
             $this->dbConn = $db->connect();
-        }
+        } 
 
         public function getAllAccountUser() {
             $result = odbc_exec($this->connection, "SELECT * FROM " . $this->tableName);   
