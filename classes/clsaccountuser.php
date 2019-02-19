@@ -110,6 +110,7 @@
 
         public function getAccountUserByGroup() {
             $sql = "SELECT * FROM $this->tableName WHERE AUGroup = " . $this->AUGroup;
+            die($sql);
             $result = odbc_exec($this->connection, $sql);   
             $userByGroup = array();
 
