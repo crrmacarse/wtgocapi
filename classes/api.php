@@ -115,7 +115,7 @@
         }
 
         public function getAccountUserByGroup() {
-            $AUGroup = $this->validateParameter('AUGroup', $this->param['AUGroup'], INTEGER);
+            $AUGroup = $this->validateParameter('AUGroup', $this->param['AUGroup'], STRING);
             
             $AccountUser = new clsAccountUser;
             $AccountUser->setAUGroup($AUGroup);
