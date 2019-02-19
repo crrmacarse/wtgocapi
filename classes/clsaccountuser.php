@@ -127,7 +127,7 @@
             $result = odbc_exec($this->connection, $sql);   
             $accessRights = array();
 
-            while($res = odbc_fetch_array($result)) {
+            while($res = odbc_fetch_array($accessRights)) {
                 array_push($accessRights, $res);
             }
 
