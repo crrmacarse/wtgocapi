@@ -97,7 +97,7 @@
         }
 
         public function getAccountUserByUser() {
-            $sql = "SELECT * FROM AccountUser WHERE unAccountUser = '$this->unAccountUser'";
+            $sql = "SELECT * FROM $this->tableName WHERE unAccountUser = '$this->unAccountUser'";
             $result = odbc_exec($this->connection, $sql);   
             $user = array();
 
