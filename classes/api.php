@@ -114,7 +114,7 @@
             $idAccountUser = $this->validateParameter('idAccountUser', $this->param['idAccountUser'], INTEGER);
             
             $AccountUser = new clsAccountUser;
-            $AccountUser->setunAccountUser($unAccountUser);
+            $AccountUser->setunAccountUser($idAccountUser);
             $data = $AccountUser->getAccessRightsByUser();
             if(!$data) {
                 $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
