@@ -214,9 +214,9 @@
                 // gets token and decode with JWT::decode translates to jwt.php then decode function
                 $token = $this->getBearerToken();
                 $payload = JWT::decode($token, JWT_SECRET_KEY, array('HS256'));
-            
-                die($payload[0]->userId);
-                
+                echo $payload['userId'];
+                exit;
+                 
                 // PDO query to check for user
                 $sql = "SELECT idAccountUser FROM AccountUser WHERE idAccountUser = '$payload{userId}'";
                 $result = odbc_exec($this->connection, $sql);   
