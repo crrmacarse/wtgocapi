@@ -77,7 +77,7 @@
             $result = odbc_exec($this->connection, "SELECT * FROM " . $this->tableName);   
             $user = array();
             
-            foreach(odbc_fetch_array($result) as $res) {
+            while($res = odbc_fetch_array($result)) {
                 array_push($user, $res);
             }
             return $user;
