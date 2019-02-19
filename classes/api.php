@@ -98,7 +98,7 @@
         }
 
         public function getAccountUserByUser() {
-            $idAccountUser = $this->validateParameter('unAccountUser', $this->param['unAccountUser'], INTEGER);
+            $idAccountUser = $this->validateParameter('unAccountUser', $this->param['unAccountUser'], STRING);
             
             $AccountUser = new clsAccountUser;
             $AccountUser->setunAccountUser($unAccountUser);
