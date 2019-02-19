@@ -104,7 +104,7 @@
             while($res = odbc_fetch_array($result)) {
                 array_push($user, $res);
             }
-        
+            
             return $user;
         }
 
