@@ -214,19 +214,19 @@
                 // gets token and decode with JWT::decode translates to jwt.php then decode function
                 $token = $this->getBearerToken();
                 $payload = JWT::decode($token, JWT_SECRET_KEY, array('HS256'));
-                die($payload);
-
+            
                 // PDO query to check for user
-                $stmt = $this->connection->prepare('SELECT * FROM AccountUser WHERE unAccountUser = :username');
-                $stmt->bindParam(':idUser', $payload->userId);
-                $stmt->execute();
-                $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                
-                if(!$user) { 
+                $sql = "SELECT idAccountUser FROM AccountUser WHERE idAccountUser = '$payload->userId'";
+                $result = odbc_exec($this->connection, $sql);   
+                $user = odbc_fetch_array($result);
+
+                if(!$user) {
+                    $this->writeLoginAttempt($username);
+                    
                     $this->returnResponse(HTTP_NOT_FOUND, 'No user found');
                 }
-
-                if( $user['FLDStatus'] == 0) {
+                
+                if( $user['Status'] == 0) {
                     $this->returnResponse(HTTP_NOT_ACCEPTABLE, 'User is not activated. Please contact the administrator');
                 }
 
