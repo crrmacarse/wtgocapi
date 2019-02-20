@@ -1,5 +1,8 @@
 <?php
+    namespace Classes\Cmeal;
 
+    use Classes\dbConnect as dbConnect;
+    
     /*
         Diday / 10.1.1.11 - DMSX 
     */
@@ -62,8 +65,9 @@
         
         public function __construct() {
             $db = new dbConnect();
-            $this->connection = $db->connect();
-        } 
+            $this->connection = $db->connectDiday('Masterlist');
+        }
+
         public function getAllStore() {
             $result = odbc_exec($this->connection, "SELECT * FROM " . $this->tableName);   
             $stores = array();
@@ -74,6 +78,7 @@
         
             return $stores;
         }
+        
         public function getStoreById() {
             $sql = "SELECT * FROM $this->tableName WHERE idStore = $this->idStore";        
             $result = odbc_exec($this->connection, $sql);   

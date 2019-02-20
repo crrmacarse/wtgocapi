@@ -1,6 +1,9 @@
 <?php
     namespace Classes;
 
+    use Classes\Cmeal\clsCmeal as clsCmeal;
+    use Classes\Cmeal\clsCmealUser as clsCmealUser;
+    
     use Classes\Diday\clsAccountUser as clsAccountUser;
     use Classes\Diday\clsBusinessUnit as clsBusinessUnit;
     use Classes\Diday\clsStore as clsStore;
@@ -144,10 +147,10 @@
             $this->returnResponse(HTTP_OK, $data);
         }
 
-            /* 
-                10.1.1.11 - DMSX's Store Table API
-           
-            */
+        /* 
+            10.1.1.11 - DMSX's Store Table API
+        
+        */
 
         public function getAllStore() {
             $Store = new clsStore;
@@ -197,6 +200,22 @@
             
             $this->returnResponse(HTTP_OK, $data);
         }
+
+        /* 
+            10.1.1.11 - Masterlist's CMeal Api
+        
+        */
+
+        public function getAllCmealUser() {
+            $cmeal = new clsCmealUser;
+            $data = $cmeal->getAllCmealUser();
+            if(!$data) {
+                $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
+            }
+            
+            $this->returnResponse(HTTP_OK, $data);
+        }
+        
         
 
 

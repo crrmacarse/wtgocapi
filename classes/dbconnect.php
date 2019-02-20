@@ -33,6 +33,17 @@
             }
         }
 
+        public function connectDiday($database){
+            try {
+                $conn = odbc_connect('Driver=FreeTDS;Server=' . $this->dbserver . ';Port='. $this->dbport .';Database='. $connectDiday , $this->dbusername , $this->dbpassword);
+                // $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                return $conn;
+            } catch (Exception $e){
+                die('Database Error: ' . $e->getMessage());
+            }
+        }
+
         public function connectTo($database){
             try {
                 $conn = new PDO('sqlsrv:Server=' . $this->dbserver . ';Database='. $this->database , $this->dbusername , $this->dbpassword);
