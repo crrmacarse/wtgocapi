@@ -1,4 +1,7 @@
 <?php
+    namespace Classes;
+
+    use Classes\dbConnect as dbConnect;
 
     require_once(dirname(__DIR__).'/config/constants.php');
 
@@ -87,11 +90,11 @@
         public function processApi() {
             try {
                 // creates an instance of API class
-                $api = new API();
+                $api = new \Classes\Api;
                 /*
                     allows to call a class method 'dynamically'. notice how we grab serviceName(trace for reference)
                 */
-                $rMethod = new reflectionMethod('API', $this->serviceName);
+                $rMethod = new \reflectionMethod('\Classes\API', $this->serviceName);
                 // checks if the method $this->serviceName exists in API class
                 if(!method_exists($api, $this->serviceName)) {
                     $this->throwError(HTTP_NOT_IMPLEMENTED, 'API method does not exist.');

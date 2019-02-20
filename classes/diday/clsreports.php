@@ -1,5 +1,8 @@
 <?php
+    namespace Classes\DIDAY;
 
+    use Classes\dbConnect as dbConnect;
+    
     /*
 
         Diday / 10.1.1.11 - DMSX 

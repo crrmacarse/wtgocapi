@@ -1,4 +1,7 @@
 <?php
+    namespace Classes\DIDAY;
+
+    use Classes\dbConnect as dbConnect;
 
     /*
 

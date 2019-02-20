@@ -1,8 +1,12 @@
 <?php
+    namespace Classes;
 
-    require_once(dirname(__DIR__).'/include/functions.php');
-
-    class Api extends Rest {
+    use Classes\Diday\clsAccountUser as clsAccountUser;
+    use Classes\Diday\clsBusinessUnit as clsBusinessUnit;
+    use Classes\Diday\clsStore as clsStore;
+    use Classes\Diday\clsReports as clsReports;
+    
+    class Api extends \Classes\Rest {
 
         public function __construct() {
             // triggers parent class(extended class)

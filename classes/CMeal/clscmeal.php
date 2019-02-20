@@ -1,8 +1,10 @@
 <?php
+
     /*
         Diday / 10.1.1.11 - DMSX 
     */
-    class clsBusinessUnit {
+
+    class clsCmeal {
         
         private $tableName = 'BusinessUnit';
         private $connection;
