@@ -36,7 +36,7 @@
         function getunAccountUser(){ return $this->unAccountUser; }
         function setAUPassword($AUPassword){ $this->AUPassword = $AUPassword; }
         function getAUPassword(){ return $this->AUPassword; }
-        function setAULastName($AULastName){ $this->AULastName = $AULastName; }
+        function setAULastName($AULastName){ $this->AULastName; }
         function getAULastName(){ return $this->AULastName; }
         function setAUFirstName($AUFirstName){ $this->AUFirstName = $AUFirstName; }
         function getAUFirstName(){ return $this->AUFirstName; }

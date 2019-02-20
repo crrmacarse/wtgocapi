@@ -172,7 +172,7 @@
 
         public function getAuthorizationHeader() {
             $headers = null;
-            if(isset($_SERVEr['Authorization'])) {
+            if(isset($_SERVER['Authorization'])) {
                 $headers = trim($_SERVER["Authorization"]);
             }
             // for Nginx or fast CGI
@@ -213,19 +213,20 @@
             try {
                 // gets token and decode with JWT::decode translates to jwt.php then decode function
                 $token = $this->getBearerToken();
-                $payload = JWT::decode($token, JWT_SECRET_KEY, array('HS256'));
-
-                // PDO query to check for user
-                $stmt = $this->connection->prepare('SELECT * FROM TBLUser WHERE idAccount = :idUser');
-                $stmt->bindParam(':idUser', $payload->userId);
-                $stmt->execute();
-                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                $payload = json_decode(JWT::decode($token, JWT_SECRET_KEY, array('HS256')));
                 
-                if(!$user) { 
+                // PDO query to check for user
+                $sql = "SELECT * FROM AccountUser WHERE idAccountUser = '$payload->userId'";
+                $result = odbc_exec($this->connection, $sql);   
+                $user = odbc_fetch_array($result);
+
+                if(!$user) {
+                    $this->writeLoginAttempt($username);
+                    
                     $this->returnResponse(HTTP_NOT_FOUND, 'No user found');
                 }
-
-                if( $user['FLDStatus'] == 0) {
+                
+                if( $user['Status'] == 0) {
                     $this->returnResponse(HTTP_NOT_ACCEPTABLE, 'User is not activated. Please contact the administrator');
                 }
 

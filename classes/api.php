@@ -57,10 +57,10 @@
                 // creates a standard jwt payload
                 $payload = 
                     array(
-                     'iat' => time(),
-                     'iss' => 'localhost',
-                     'exp' => time() + (5*60),
-                     'userId' => $user['idAccountUser']
+                     "iat" => time(),
+                     "iss" => "localhost",
+                     "exp" => time() + (5*60),
+                     "userId" => $user["idAccountUser"]
                   )
                 ;
 
@@ -75,38 +75,129 @@
 
         }
 
+        /* 
+                10.1.1.11 - DMSX's AccountUser Table API
+        */
+
         public function getAllAccountUser() {
             $AccountUser = new clsAccountUser;
             $data = $AccountUser->getAllAccountUser();
             if(!data){
                 $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found'));
             }
-
             $this->returnResponse(HTTP_OK, $data);
         }
 
-        public function getAllHousehold() { 
-            $household = new clsHousehold;
-            $data = $household->getAllHousehold();
-            if(!$data) { 
-                $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
-            }
-
-            $this->returnResponse(HTTP_OK, $data);
-        }
-
-        public function getHouseholdById() {
-            $idHousehold = $this->validateParameter('idHousehold', $this->param['idHousehold'], INTEGER);
+        public function getAccountUserById() {
+            $idAccountUser = $this->validateParameter('idAccountUser', $this->param['idAccountUser'], INTEGER);
             
-            $household = new clsHousehold;
-            $household->setIdHousehold($idHousehold);
-            $data = $household->getHouseholdById();
+            $AccountUser = new clsAccountUser;
+            $AccountUser->setidAccountUser($idAccountUser);
+            $data = $AccountUser->getAccountUserById();
             if(!$data) {
                 $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
             }
             
             $this->returnResponse(HTTP_OK, $data);
         }
+
+        public function getAccountUserByUser() {
+            $unAccountUser = $this->validateParameter('unAccountUser', $this->param['unAccountUser'], STRING);
+            
+            $AccountUser = new clsAccountUser;
+            $AccountUser->setunAccountUser($unAccountUser);
+            $data = $AccountUser->getAccountUserByUser();
+            if(!$data) {
+                $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
+            }
+            
+            $this->returnResponse(HTTP_OK, $data);
+        }
+
+        public function getAccountUserByGroup() {
+            $AUGroup = $this->validateParameter('AUGroup', $this->param['AUGroup'], STRING);
+            
+            $AccountUser = new clsAccountUser;
+            $AccountUser->setAUGroup($AUGroup);
+            $data = $AccountUser->getAccountUserByGroup();
+            if(!$data) {
+                $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
+            }
+            
+            $this->returnResponse(HTTP_OK, $data);
+        }
+
+        public function getAccessRightsByUser() {
+            $idAccountUser = $this->validateParameter('idAccountUser', $this->param['idAccountUser'], INTEGER);
+            
+            $AccountUser = new clsAccountUser;
+            $AccountUser->setidAccountUser($idAccountUser);
+            $data = $AccountUser->getAccessRightsByUser();
+            if(!$data) {
+                $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
+            }
+            
+            $this->returnResponse(HTTP_OK, $data);
+        }
+
+            /* 
+                10.1.1.11 - DMSX's Store Table API
+           
+            */
+
+        public function getAllStore() {
+            $Store = new clsStore;
+            $data = $Store->getAllStore();
+            if(!$data) {
+                $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
+            }
+            
+            $this->returnResponse(HTTP_OK, $data);
+        }
+
+        public function getStoreById() {
+            $idStore = $this->validateParameter('idStore', $this->param['idStore'], INTEGER);
+            
+            $Store = new clsStore;
+            $Store->setidStore($idStore);
+            $data = $Store->getStoreById();
+            if(!$data) {
+                $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
+            }
+            
+            $this->returnResponse(HTTP_OK, $data);
+        }
+
+        public function getStoreByBUCode() {
+            $BUCode = $this->validateParameter('BUCode', $this->param['BUCode'], STRING);
+            
+            $Store = new clsStore;
+            $Store->setBUCode($BUCode);
+            $data = $Store->getStoreByBUCode();
+            if(!$data) {
+                $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
+            }
+            
+            $this->returnResponse(HTTP_OK, $data);
+        }
+
+        public function getStoreByBUSAPCardCode() {
+            $BUSAPCardCode = $this->validateParameter('BUSAPCardCode', $this->param['BUSAPCardCode'], STRING);
+            
+            $Store = new clsStore;
+            $Store->setBUCode($BUSAPCardCode);
+            $data = $Store->getStoreByBUSAPCardCode();
+            if(!$data) {
+                $this->returnResponse(HTTP_NO_CONTENT, array('message' => 'No Content found.'));
+            }
+            
+            $this->returnResponse(HTTP_OK, $data);
+        }
+        
+
+
+
+
     }
 
 ?>
