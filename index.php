@@ -7,7 +7,7 @@
     require_once('include/autoloader.php');
     require('include/functions.php');
 
-    $api = new Classes\Api;
+    $api = new \Classes\Api;
     $api->processApi();
 
 ?>

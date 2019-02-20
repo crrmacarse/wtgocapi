@@ -8,7 +8,6 @@
 
     */
 
-
     class clsAccountUser {
         private $tableName = 'AccountUser';
         private $connection;
@@ -147,6 +146,9 @@
             return $accessRights;
         }
 
+        public function updateAccountUserById(){  }
+        public function updateAccountUserByGroup(){  }
+        public function deleteAccountUserById(){  }
 
     }
 

@@ -163,7 +163,7 @@ class JWT
     public static function sign($msg, $key, $alg = 'HS256')
     {
         if (empty(static::$supported_algs[$alg])) {
-            throw new DomainException('Algorithm not supported');
+            throw new \DomainException('Algorithm not supported');
         }
         list($function, $algorithm) = static::$supported_algs[$alg];
         switch($function) {
@@ -173,7 +173,7 @@ class JWT
                 $signature = '';
                 $success = openssl_sign($msg, $signature, $key, $algorithm);
                 if (!$success) {
-                    throw new DomainException("OpenSSL unable to sign data");
+                    throw new \DomainException("OpenSSL unable to sign data");
                 } else {
                     return $signature;
                 }
@@ -195,7 +195,7 @@ class JWT
     private static function verify($msg, $signature, $key, $alg)
     {
         if (empty(static::$supported_algs[$alg])) {
-            throw new DomainException('Algorithm not supported');
+            throw new \DomainException('Algorithm not supported');
         }
         list($function, $algorithm) = static::$supported_algs[$alg];
         switch($function) {
@@ -207,7 +207,7 @@ class JWT
                     return false;
                 }
                 // returns 1 on success, 0 on failure, -1 on error.
-                throw new DomainException(
+                throw new \DomainException(
                     'OpenSSL error: ' . openssl_error_string()
                 );
             case 'hash_hmac':
@@ -254,7 +254,7 @@ class JWT
         if (function_exists('json_last_error') && $errno = json_last_error()) {
             static::handleJsonError($errno);
         } elseif ($obj === null && $input !== 'null') {
-            throw new DomainException('Null result with non-null input');
+            throw new \DomainException('Null result with non-null input');
         }
         return $obj;
     }
@@ -273,7 +273,7 @@ class JWT
         if (function_exists('json_last_error') && $errno = json_last_error()) {
             static::handleJsonError($errno);
         } elseif ($json === 'null' && $input !== null) {
-            throw new DomainException('Null result with non-null input');
+            throw new \DomainException('Null result with non-null input');
         }
         return $json;
     }
@@ -320,7 +320,7 @@ class JWT
             JSON_ERROR_SYNTAX => 'Syntax error, malformed JSON',
             JSON_ERROR_UTF8 => 'Malformed UTF-8 characters' //PHP >= 5.3.3
         );
-        throw new DomainException(
+        throw new \DomainException(
             isset($messages[$errno])
             ? $messages[$errno]
             : 'Unknown JSON error: ' . $errno
