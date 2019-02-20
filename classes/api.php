@@ -1,7 +1,6 @@
 <?php
     namespace Classes;
 
-    use Classes\Cmeal\clsCmeal as clsCmeal;
     use Classes\Cmeal\clsCmealUser as clsCmealUser;
     
     use Classes\Diday\clsAccountUser as clsAccountUser;

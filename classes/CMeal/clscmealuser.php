@@ -7,9 +7,9 @@
         Diday / 10.1.1.11 - Masterlist 
     */
 
-    class clsCmeal {
+    class clsCmealUser {
         
-        private $tableName = 'TblCMealUser';
+        private $tableName = "[TblCMealUser]";
         private $connection;
 
         private $FLDCMUID;
@@ -74,49 +74,44 @@
         
         public function __construct() {
             $db = new dbConnect();
-            $this->connection = $db->connectDiday('Masterlist');
+            $db->setDidayDatabase("Masterlist");
+            
+            $this->connection = $db->connect();
         }
 
         public function getAllCmealUser() {
-            $result = odbc_exec($this->connection, "SELECT * FROM " . $this->tableName);   
-            $cmealusers = array();
+                $sql = "SELECT
+                    
+                            FLDCMUID,
+                            FLDCMUCID,
+                            FLDCMULastName,
+                            FLDCMUFirstName,
+                            FLDCMUMiddleName,
+                            FLDCMUSuffix,
+                            FLDCMUFullName,
+                            FLDCMUMember,
+                            FLDCMUPosition,
+                            FLDCMUStatus,
+                            FLDCMUCreditLimit,
+                            FLDCMUCreditRemaining,
+                            FLDMLLOWCreditLimit,
+                            FLDMLLOWCreditRemaining,
+                            FLDLevel,
+                            FLDCMUSerial,
+                            FLDCMUMacAddress,
+                            FLDCMUSessionId 
+                        
+                        FROM " . $this->tableName;
+
+                $result = odbc_exec($this->connection, $sql);  
+                $user = array();
+                
+                while($res = odbc_fetch_array($result)) {
+                    array_push($user, $res);
+                }
             
-            while($res = odbc_fetch_array($result)) {
-                array_push($cmealusers, $res);
-            }
-        
-            return $cmealusers;
+                return $user;    
         }
         
-        public function getStoreById() {
-            $sql = "SELECT * FROM $this->tableName WHERE idStore = $this->idStore";        
-            $result = odbc_exec($this->connection, $sql);   
-            $store = array();
-            while($res = odbc_fetch_array($result)) {
-                array_push($store, $res);
-            }
-        
-            return $store;
-        }
-        public function getStoreByBUCode() {
-            $sql = "SELECT * FROM $this->tableName WHERE BUCode = '$this->BUCode'";
-            $result = odbc_exec($this->connection, $sql);   
-            $stores = array();
-            while($res = odbc_fetch_array($result)) {
-                array_push($stores, $res);
-            }
-            
-            return $stores;
-        }
-        public function getStoreByBUSAPCardCode() {
-            $sql = "SELECT * FROM $this->tableName WHERE SAPCardCode = '$this->SAPCardCode'";
-            $result = odbc_exec($this->connection, $sql);  
-            $store = array();
-            while($res = odbc_fetch_array($result)) {
-                array_push($store, $res);
-            }
-            
-            return $store;
-        }
     }
 ?>

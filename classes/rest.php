@@ -49,6 +49,7 @@
 
             // constructs a connection string
             $db = new dbConnect;
+            $db->setDidayDatabase("DMSX");
             $this->connection = $db->connect();
    
             // filters generatetoken api request so it could not conflict with validateToken()
@@ -242,7 +243,9 @@
 
         public function checkLoginAttempt($userId) {
             $mysqlconn = new dbConnect;
-            $conn = $mysqlconn->connectMySQL("failed_logins"); 
+            $mysqlconn->setMYSQLDatabase("failed_logins");
+
+            $conn = $mysqlconn->connectMySQL(); 
             try {
 
                 $stmt = $conn->prepare("SELECT COUNT(*) AS total
@@ -268,7 +271,9 @@
 
         public function writeLoginAttempt($userId) {
             $mysqlconn = new dbConnect;
-            $conn = $mysqlconn->connectMySQL("failed_logins"); 
+            $mysqlconn->setMYSQLDatabase("failed_logins");
+
+            $conn = $mysqlconn->connectMySQL(); 
 
             try {
                 $stmt = $conn->prepare("INSERT INTO user_failed_logins(USERID, IPADDRESS, DATEATTEMPT)  
