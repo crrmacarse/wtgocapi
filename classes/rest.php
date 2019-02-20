@@ -101,7 +101,7 @@
                 }
                 // invoke allows rMethod to accetpt the object of the API class
                 $rMethod->invoke($api);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->throwError(HTTP_NOT_IMPLEMENTED, 'API does not exist');
             }
         }
@@ -235,7 +235,7 @@
 
                 // assigns userId for future use
                 $this->userId = $payload->userId;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->throwError(HTTP_UNPROCESSABLE_ENTITY, $e->getMessage());
             }
         }
@@ -260,7 +260,7 @@
                if($result["total"] > 3) {
                    $this->throwError(HTTP_BAD_REQUEST, "You've exceeded the maximum log-in attempt for today. Sorry for the inconvenience (This module was implemented for security reasons).");
                }
-            } catch (Exception $e){
+            } catch (\Exception $e){
                 $this->throwError(HTTP_INTERNAL_SERVER_ERROR, $e->getMessage());
             }
 
@@ -278,7 +278,7 @@
                 $stmt->bindParam('ip', $this->ip);
                 $stmt->execute();
                 
-            } catch (Exception $e){
+            } catch (\Exception $e){
                $this->throwError(HTTP_INTERNAL_SERVER_ERROR, $e->getMessage());
             }
         }

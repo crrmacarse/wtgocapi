@@ -73,7 +73,7 @@
                 // success response 
                 $data = array('token' => $token);
                 $this->returnResponse(HTTP_OK, $data);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->throwError(HTTP_UNPROCESSABLE_ENTITY, $e->getMessage());
             }
 
