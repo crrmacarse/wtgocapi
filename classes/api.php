@@ -61,18 +61,17 @@
                 }
 
                 // creates a standard jwt payload
-                $payload = 
-                    array(
-                     "iat" => time(),
-                     "iss" => "localhost",
-                     "exp" => time() + (5*60),
-                     "userId" => $user["idAccountUser"]
-                  )
-                ;
-
+                $payload = array (
+                    "iat"=>time(),
+                    "iss"=>parent::getIPAddress(),
+                    "exp"=>time() + (5 * 60 * 60),
+                    "userId"=>$user["idAccountUser"]
+                );
+               
                 // calls jwt.php encode function
-                $token = JWT::encode(json_encode($payload), JWT_SECRET_KEY);
+                $token = JWT::encode($payload, JWT_SECRET_KEY);
                 // success response 
+                
                 $data = array('token' => $token);
                 $this->returnResponse(HTTP_OK, $data);
             } catch (\Exception $e) {

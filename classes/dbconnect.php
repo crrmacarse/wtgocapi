@@ -20,7 +20,7 @@
         private $dbpassword = DB_PASSWORD;
 
         private $dbmysqlserver = DB_LOCAL_MYSQL_SERVER;
-        private $dbmysqldbname = DB_LOCAL_MYSQL_DBNAME;
+        private $dbmysqldbname;
         private $dbmysqlusername = DB_LOCAL_MYSQL_USERNAME;
         private $dbmysqlpassword = DB_LOCAL_MYSQL_PASSWORD;
 
@@ -57,8 +57,8 @@
 
         public function connectTo(){
             try {
-                $conn = new PDO('sqlsrv:Server=' . $this->dbserver . ';Database='. $this->database , $this->dbusername , $this->dbpassword);
-                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $conn = new \PDO('sqlsrv:Server=' . $this->dbserver . ';Database='. $this->database , $this->dbusername , $this->dbpassword);
+                $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
                 
                 return $conn;
             } catch (\Exception $e){
@@ -68,8 +68,8 @@
 
         public function connectMySQL() {
             try {
-                $conn = new PDO('mysql:host=' . $this->dbmysqlserver . ';dbname='. $dbmysqldbname , $this->dbmysqlusername , $this->dbmysqlpassword);
-                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $conn = new \PDO('mysql:host=' . $this->dbmysqlserver . ';dbname='. $this->dbmysqldbname , $this->dbmysqlusername , $this->dbmysqlpassword);
+                $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
                 return $conn;
             } catch (\Exception $e){

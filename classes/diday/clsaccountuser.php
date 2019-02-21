@@ -71,6 +71,8 @@
 
         public function __construct() {
             $db = new dbConnect();
+            $db->setDidayDatabase("DMSX");
+            
             $this->connection = $db->connect();
         } 
 

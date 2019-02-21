@@ -258,7 +258,7 @@
                 $stmt->bindParam('uid', $userId);
                 $stmt->bindParam('ip', $this->ip);
                 $stmt->execute();
-                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                $result = $stmt->fetch(\PDO::FETCH_ASSOC);
 
                if($result["total"] > 3) {
                    $this->throwError(HTTP_BAD_REQUEST, "You've exceeded the maximum log-in attempt for today. Sorry for the inconvenience (This module was implemented for security reasons).");
@@ -288,7 +288,9 @@
             }
         }
 
-    }
+        public function getIPAddress() {
+            return $this->ip;
+        }
 
-    header('content-type: application/json');
+    }
 ?> 
