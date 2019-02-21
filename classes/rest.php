@@ -67,6 +67,17 @@
             if($_SERVER['CONTENT_TYPE'] !== 'application/json'){
                 $this->throwError(HTTP_NOT_ACCEPTABLE, 'Request content type is not valid.');
             }
+
+            /*
+                There seems to be an error in json_decode as it returns null
+                  
+                submitted json:
+                    {
+                        "name":"getStoreById", <= "," the comma triggers the error
+                    }
+
+            */
+
             // converts to json to array
             $data = json_decode($this->request, true);
 
@@ -77,11 +88,31 @@
             $this->serviceName = $data['name'];
 
             // Check if submitted data has param in it
-            if(!is_array($data['param'])){
+            if(!isset($data['param']) || !is_array($data['param'])){
                 $this->throwError(HTTP_PRECONDITION_REQUIRED, 'API PARAM is required.');
             }
-            $this->param = $data['param'];
 
+            /* 
+                02/21/19 -- pota daw sa postman ang problema kay gna submit nya isa lang guro
+
+                Throws an error if found to have a duplicate key. 
+                
+                note: $data['param'] + 1: BECAUSE ARRAY STARTS AT 0 and the other param returns number value
+           
+           
+                test:
+
+                    die(json_encode(count($data['param])));
+                    die(json_encode(count(array_unique($keys)))); 
+                    die(json_encode(count(array_keys($this->param))));            
+            */
+
+            $arrKeys = array_keys($data['param']);
+            if(count($data['param']) !== count(array_unique($arrKeys))) {
+                $this->throwError(HTTP_BAD_REQUEST, 'There seems to be a duplicate key on the parameters');           
+            }
+
+            $this->param = $data['param'];        
         }
         
         /*
@@ -217,7 +248,7 @@
             try {
                 // gets token and decode with JWT::decode translates to jwt.php then decode function
                 $token = $this->getBearerToken();
-                $payload = json_decode(JWT::decode($token, JWT_SECRET_KEY, array('HS256')));
+                $payload = JWT::decode($token, JWT_SECRET_KEY, array('HS256'));
                 
                 // PDO query to check for user
                 $sql = "SELECT * FROM AccountUser WHERE idAccountUser = '$payload->userId'";
@@ -243,17 +274,18 @@
 
         public function checkLoginAttempt($userId) {
             $mysqlconn = new dbConnect;
-            $mysqlconn->setMYSQLDatabase("failed_logins");
+            $mysqlconn->setMYSQLDatabase("wtgocapi");
 
             $conn = $mysqlconn->connectMySQL(); 
             try {
 
                 $stmt = $conn->prepare("SELECT COUNT(*) AS total
                 
-                FROM user_failed_logins
+                FROM UserSession
                 
                 WHERE USERID = :uid 
                 AND INET_NTOA(IPADDRESS) = :ip 
+                AND DESCRIPT = 'A Login attempt has been made'
                 AND DATEATTEMPT > (NOW() - INTERVAL 24 HOUR)");
                 $stmt->bindParam('uid', $userId);
                 $stmt->bindParam('ip', $this->ip);
@@ -271,16 +303,16 @@
 
         public function writeLoginAttempt($userId) {
             $mysqlconn = new dbConnect;
-            $mysqlconn->setMYSQLDatabase("failed_logins");
+            $mysqlconn->setMYSQLDatabase("wtgocapi");
 
             $conn = $mysqlconn->connectMySQL(); 
 
             try {
-                $stmt = $conn->prepare("INSERT INTO user_failed_logins(USERID, IPADDRESS, DATEATTEMPT)  
+                $stmt = $conn->prepare("INSERT INTO UserSession(USERID, IPADDRESS, DESCRIPT, DATEATTEMPT)  
                 
-                VALUES(:uid, INET_ATON(:ip), now())");               
-                $stmt->bindParam('uid', $userId);
-                $stmt->bindParam('ip', $this->ip);
+                VALUES(:uid, INET_ATON(:ip), 'A Login attempt has been made', now())");               
+                $stmt->bindParam(':uid', $userId);
+                $stmt->bindParam(':ip', $this->ip);
                 $stmt->execute();
                 
             } catch (\Exception $e){
