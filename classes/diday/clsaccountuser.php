@@ -73,7 +73,7 @@
             $db = new dbConnect();
             $db->setDidayDatabase("DMSX");
             
-            $this->connection = $db->connect();
+            $this->connection = $db->connectDiday();
         } 
 
         public function getAllAccountUser() {

@@ -11,33 +11,59 @@
 
     class dbConnect {
 
-        // seperate as $dbSQL and $dbMYSQL soon
-        
-        private $dbserver = DB_SERVER;
-        private $dbport = DB_PORT;
-        private $dbname;
-        private $dbusername = DB_USERNAME;
-        private $dbpassword = DB_PASSWORD;
+        // DIDAY
+        private $didayserver = DIDAY_SERVER;
+        private $didayport = DIDAY_PORT;
+        private $didayusername = DIDAY_USERNAME;
+        private $didaypassword = DIDAY_PASSWORD;
+        private $didaydbname;
 
-        private $dbmysqlserver = DB_LOCAL_MYSQL_SERVER;
-        private $dbmysqldbname;
-        private $dbmysqlusername = DB_LOCAL_MYSQL_USERNAME;
-        private $dbmysqlpassword = DB_LOCAL_MYSQL_PASSWORD;
+        // Pam2x
+        private $pampamserver = PAMPAM_SERVER;
+        private $pampamport = PAMPAM_PORT;
+        private $pampamusername = PAMPAM_USERNAME;
+        private $pampampassword = PAMPAM_PASSWORD;
+        private $pampamdbname;
 
-        function setDidayServer($dbserver){ $this->dbserver = $dbserver; }
-        function setDidayPort($dbport){ $this->dbport = $dbport; }
-        function setDidayDatabase($dbname){ $this->dbname = $dbname; }
-        function setDidayUsername($dbusername){ $this->dbusername = $dbusername; }
-        function setDidayPassword($dbpassword){ $this->dbpassword = $dbpassword; }
+        // Lampugak
+        private $lampugakserver = LAMPUGAK_SERVER;
+        private $lampugakusername = LAMPUGAK_USERNAME;
+        private $lampugakpassword = LAMPUGAK_PASSWORD;
+        private $lampugakdbname;
 
-        function setMYSQLServer($dbmysqlserver){ $this->dbserver = $dbmysqlserver; }
-        function setMYSQLDatabase($dbmysqldbname){ $this->dbmysqldbname = $dbmysqldbname; }
-        function setMYSQLUsername($dbmysqlusername){ $this->dbmysqlusername = $dbmysqlusername; }
-        function setMYSQLPassword($dbmysqlpassword){ $this->dbmysqlpassword = $dbmysqlpassword; }
+        // Hostgator
+        private $hostgatorserver = HOSTGATOR_SERVER;
+        private $hostgatorusername = HOSTGATOR_USERNAME;
+        private $hostgatorpassword = HOSTGATOR_PASSWORD;
+        private $hostgatordbname;
 
-        public function connect(){
+        function setDidayServer($didayserver){ $this->didayserver = $didayserver; }
+        function setDidayPort($didayport){ $this->didayport = $didayport; }
+        function setDidayDatabase($didaydbname){ $this->didaydbname = $didaydbname; }
+        function setDidayUsername($didayusername){ $this->didayusername = $didayusername; }
+        function setDidayPassword($didaypassword){ $this->didaypassword = $didaypassword; }
+
+        function setPampamServer($pampamserver){ $this->pampamserver = $pampamserver; }
+        function setPampamPort($pampamport){ $this->pampamport = $pampamport; }
+        function setPampamDatabase($pampamdbname){ $this->pampamdbname = $pampamdbname; }
+        function setPampamUsername($pampamusername){ $this->pampamusername = $pampamusername; }
+        function setPampamPassword($pampampassword){ $this->pampampassword = $pampampassword; }
+
+        function setLampugakServer($lampugakserver){ $this->lampugakserver = $lampugakserver; }
+        function setLampugakPort($lampugakport){ $this->lampugakport = $lampugakport; }
+        function setLampugakDatabase($lampugakdbname){ $this->lampugakdbname = $lampugakdbname; }
+        function setLampugakUsername($lampugakusername){ $this->lampugakusername = $lampugakusername; }
+        function setLampugakPassword($lampugakpassword){ $this->lampugakpassword = $lampugakpassword; }
+
+        function setHostgatorServer($hostgatorserver){ $this->hostgatorserver = $hostgatorserver; }
+        function setHostgatorPort($hostgatorport){ $this->hostgatorport = $hostgatorport; }
+        function setHostgatorDatabase($hostgatordbname){ $this->hostgatordbname = $hostgatordbname; }
+        function setHostgatorUsername($hostgatorusername){ $this->hostgatorusername = $hostgatorusername; }
+        function setHostgatorPassword($hostgatorpassword){ $this->hostgatorpassword = $hostgatorpassword; }
+
+        public function connectDiday(){
             try {
-                $conn = odbc_connect('Driver=FreeTDS;Server=' . $this->dbserver . ';Port='. $this->dbport .';Database='. $this->dbname , $this->dbusername , $this->dbpassword);
+                $conn = odbc_connect('Driver=FreeTDS;Server=' . $this->didayserver . ';Port='. $this->didayport .';Database='. $this->didaydbname , $this->didayusername , $this->didaypassword);
                 
                 return $conn;
             } catch (\Exception $e){
@@ -45,9 +71,9 @@
             }
         }
 
-        public function connectSQL(){
+        public function connectPampam(){
             try {
-                $conn = odbc_connect('Driver=FreeTDS;Server=' . $this->dbserver . ';Port='. $this->dbport .';Database='. $this->dbname , $this->dbusername , $this->dbpassword);
+                $conn = odbc_connect('Driver=FreeTDS;Server=' . $this->pampamserver . ';Port='. $this->pampamport .';Database='. $this->pampamdbname , $this->pampamusername , $this->pampampassword);
                 
                 return $conn;
             } catch (\Exception $e){
@@ -55,20 +81,20 @@
             }
         }
 
-        public function connectTo(){
+        public function connectLampugak() {
             try {
-                $conn = new \PDO('sqlsrv:Server=' . $this->dbserver . ';Database='. $this->database , $this->dbusername , $this->dbpassword);
+                $conn = new \PDO('mysql:host=' . $this->lampugakserver . ';dbname='. $this->lampugakdbname , $this->lampugakusername , $this->lampugakpassword);
                 $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-                
+
                 return $conn;
             } catch (\Exception $e){
-                $this->throwError(HTTP_NOT_IMPLEMENTED, "Database Change Error. Database doesn't seem to exist");
+                die('Database Error: ' . $e->getMessage());
             }
         }
 
-        public function connectMySQL() {
+        public function connectHostgator() {
             try {
-                $conn = new \PDO('mysql:host=' . $this->dbmysqlserver . ';dbname='. $this->dbmysqldbname , $this->dbmysqlusername , $this->dbmysqlpassword);
+                $conn = new \PDO('mysql:host=' . $this->hostgatorserver . ';dbname='. $this->hostgatordbname , $this->hostgatorusername , $this->hostgatorpassword);
                 $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
                 return $conn;

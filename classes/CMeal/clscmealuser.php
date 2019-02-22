@@ -9,7 +9,7 @@
 
     class clsCmealUser {
         
-        private $tableName = "[TblCMealUser]";
+        private $tableName = "TblCMealUser";
         private $connection;
 
         private $FLDCMUID;
@@ -76,7 +76,7 @@
             $db = new dbConnect();
             $db->setDidayDatabase("Masterlist");
             
-            $this->connection = $db->connect();
+            $this->connection = $db->connectDiday();
         }
 
         public function getAllCmealUser() {

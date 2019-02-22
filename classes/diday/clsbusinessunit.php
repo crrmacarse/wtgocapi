@@ -66,7 +66,7 @@
             $db = new dbConnect();
             $db->setDidayDatabase("DMSX");
             
-            $this->connection = $db->connect();
+            $this->connection = $db->connectDiday();
         } 
         public function getAllStore() {
             $result = odbc_exec($this->connection, "SELECT * FROM " . $this->tableName);   

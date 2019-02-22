@@ -65,7 +65,9 @@
         
         public function __construct() {
             $db = new dbConnect();
-            $this->connection = $db->connectDiday('Masterlist');
+            $db->setDidayDatabase("Masterlist");
+            
+            $this->connection = $db->connectDiday();
         }
 
         public function getAllStore() {

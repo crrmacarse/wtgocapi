@@ -50,7 +50,7 @@
             // constructs a connection string
             $db = new dbConnect;
             $db->setDidayDatabase("DMSX");
-            $this->connection = $db->connect();
+            $this->connection = $db->connectDiday();
    
             // filters generatetoken api request so it could not conflict with validateToken()
             if('generatetoken' != strtolower( $this->serviceName)) { 
@@ -274,9 +274,9 @@
 
         public function checkLoginAttempt($userId) {
             $mysqlconn = new dbConnect;
-            $mysqlconn->setMYSQLDatabase("wtgocapi");
+            $mysqlconn->setLampugakDatabase("wtgocapi");
 
-            $conn = $mysqlconn->connectMySQL(); 
+            $conn = $mysqlconn->connectLampugak(); 
             try {
 
                 $stmt = $conn->prepare("SELECT COUNT(*) AS total
@@ -292,9 +292,10 @@
                 $stmt->execute();
                 $result = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-               if($result["total"] > 3) {
-                   $this->throwError(HTTP_BAD_REQUEST, "You've exceeded the maximum log-in attempt for today. Sorry for the inconvenience (This module was implemented for security reasons).");
-               }
+                if($result["total"] > 3) {
+                    $this->throwError(HTTP_BAD_REQUEST, "You've exceeded the maximum log-in attempt for today. Sorry for the inconvenience (This module was implemented for security reasons).");
+                }
+
             } catch (\Exception $e){
                 $this->throwError(HTTP_INTERNAL_SERVER_ERROR, $e->getMessage());
             }
@@ -303,9 +304,9 @@
 
         public function writeLoginAttempt($userId) {
             $mysqlconn = new dbConnect;
-            $mysqlconn->setMYSQLDatabase("wtgocapi");
+            $mysqlconn->setLampugakDatabase("wtgocapi");
 
-            $conn = $mysqlconn->connectMySQL(); 
+            $conn = $mysqlconn->connectLampugak(); 
 
             try {
                 $stmt = $conn->prepare("INSERT INTO UserSession(USERID, IPADDRESS, DESCRIPT, DATEATTEMPT)  
