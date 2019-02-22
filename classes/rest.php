@@ -28,7 +28,7 @@
                     'maintained by' => array(
                         '@crrmacarse' => 'https://twitter.com/pablongbuhaymo',
                     ),
-                    'note' => 'This API only accept POST method for inbound requests'
+                    'note' => 'This API only accept POST method for inbound requests.'
                 ));
             };
 
@@ -63,9 +63,9 @@
         */
 
         public function validateRequest() {
-            // Check if submitted content-type is a json format
+            // Check if submitted content-type is a json format. pass parameter must be content-type: application/json
             if($_SERVER['CONTENT_TYPE'] !== 'application/json'){
-                $this->throwError(HTTP_NOT_ACCEPTABLE, 'Request content type is not valid.');
+                $this->throwError(HTTP_NOT_ACCEPTABLE, 'Request content type is not valid. Must be JSON Format only.');
             }
 
             /*
@@ -109,7 +109,7 @@
 
             $arrKeys = array_keys($data['param']);
             if(count($data['param']) !== count(array_unique($arrKeys))) {
-                $this->throwError(HTTP_BAD_REQUEST, 'There seems to be a duplicate key on the parameters');           
+                $this->throwError(HTTP_BAD_REQUEST, 'There seems to be a duplicate key on the parameters.');           
             }
 
             $this->param = $data['param'];        
@@ -152,24 +152,21 @@
             switch ($dataType) {
                 case BOOLEAN:
                     if(!is_bool($value)) {
-                        $this->throwError(HTTP_BAD_REQUEST, 'Datatype is not valid for ' . $fieldName
-                            . '. It should be boolean');
+                        $this->throwError(HTTP_BAD_REQUEST, "Datatype is not valid for $fieldName. It should be boolean");
                     }
                     break;
                 case INTEGER:
                     if(!is_numeric($value)) {
-                        $this->throwError(HTTP_BAD_REQUEST, 'Datatype is not valid for ' . $fieldName
-                            . '. It should be numeric');
+                        $this->throwError(HTTP_BAD_REQUEST, "Datatype is not valid for $fieldName. It should be numeric.");
                     }
                     break;
                 case STRING:
                     if(!is_string($value)) {
-                        $this->throwError(HTTP_BAD_REQUEST, 'Datatype is not valid for '. $fieldName
-                            . '. It should be string');
+                        $this->throwError(HTTP_BAD_REQUEST, "Datatype is not valid for $fieldName. It should be a string.");
                     }
                     break;
                 default:
-                    $this->throwError(HTTP_BAD_REQUEST, 'Datatype is not valid for' . $fieldName);
+                    $this->throwError(HTTP_BAD_REQUEST, "Datatype is not valid for $fieldName.");
                     break;
             }
 
@@ -238,7 +235,7 @@
 	                return $matches[1];
 	            }
 	        }
-	        $this->throwError(HTTP_NOT_FOUND, 'Access Token Not found');
+	        $this->throwError(HTTP_NOT_FOUND, 'Access Token Not found.');
         }
         
         /*
@@ -262,7 +259,7 @@
                 }
                 
                 if( $user['Status'] == 0) {
-                    $this->returnResponse(HTTP_NOT_ACCEPTABLE, 'User is not activated. Please contact the administrator');
+                    $this->returnResponse(HTTP_NOT_ACCEPTABLE, 'User is not activated. Please contact the administrator.');
                 }
 
                 // assigns userId for future use
@@ -292,7 +289,7 @@
                 $stmt->execute();
                 $result = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-                if($result["total"] > 3) {
+                if($result["total"] >= 5) {
                     $this->throwError(HTTP_BAD_REQUEST, "You've exceeded the maximum log-in attempt for today. Sorry for the inconvenience (This module was implemented for security reasons).");
                 }
 
